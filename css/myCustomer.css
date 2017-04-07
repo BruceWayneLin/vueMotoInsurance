@@ -1,0 +1,186 @@
+.logo {
+    margin-top: 15px;
+    float:left;
+}
+
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+    width: 100%;
+    margin: auto;
+    max-height: 350px;
+}
+
+.navbar.navbar-default {
+    margin-bottom: 0px;
+}
+
+i.fa.fa-chevron-left, i.fa.fa-chevron-right {
+    margin-top: 160px;
+}
+
+.products.col-md-3 {
+    height: 300px;
+    padding: 15px;
+}
+
+.priceDiv {
+    height: 70px;
+}
+
+.priceDiscount {
+    text-decoration: line-through;
+}
+
+section.productSection {
+    margin: 90px 0px;
+}
+
+.productContentDiv {
+    border: 1px solid black;
+    padding: 40px 0px;
+}
+
+.productTwoContentDiv {
+    border: 1px solid black;
+    padding: 40px 0px;
+}
+
+.buttonProject {
+    margin: 30px 0px;
+}
+
+footer {
+    border-top: 1px black solid;
+    padding: 20px 0px;
+    padding-top: 40px;
+    margin: 20px 0px;
+}
+
+.buttonProject .col-md-6 {
+    margin: 30px 0px;
+}
+
+.customerForm input, .customerForm select {
+    margin-top: 10px;
+}
+
+.customerForm strong {
+    font-size: 20px;
+    border-bottom: 1px solid black;
+}
+
+.gender {
+    padding: 8px 15px;
+}
+
+.birthSpan {
+    padding: 15px 0px 0px 15px;
+}
+
+.customerForm .NextButton {
+    margin: 10px 15px 0px 0px;
+    float: right;
+}
+
+.customerForm {
+    margin-bottom: 60px;
+}
+
+.customerForm .addr {
+    padding-right: 15px;
+    padding-left: 15px;
+}
+
+.checkboxSpan {
+    margin-left: 15px;
+}
+
+.spanLine {
+    border-bottom: 1px solid #eeeeee;
+    height: 50px;
+}
+
+#datetimepicker input {
+    margin-top: 0px;
+}
+
+#datetimepicker {
+    margin-top: 15px;
+}
+
+.spanPosi {
+    position: relative;
+    top: 20px;
+}
+
+.customerForm button {
+    margin: 10px 0px;
+}
+
+.slideOutLeft {
+    display: none;
+}
+
+.customerInfo .container-fluid {
+    margin: 60px 0px;
+    margin-top: 0px;
+}
+
+.customerInfo .title {
+    margin: 10px 0px 20px 0px;
+}
+
+.customerInfo {
+    background: white;
+    border: 1px solid #eeeeee;
+    padding: 0px 80px 80px 80px;
+}
+
+.customerInfo h4, h3 {
+    padding-bottom: 5px;
+    border-bottom: 1px solid #ddd;
+}
+
+.customerInfo strong {
+    font-size: 20px;
+}
+
+@media screen and (min-width: 500px) {
+    .customerInfo {
+        padding: 0px;
+    }
+}
+
+.thanksPage .col-md-12 {
+    margin-bottom: 20px;
+}
+
+.thanksPage .thanksDiv {
+    padding: 0px 45px;
+    margin: 40px 0px;
+}
+
+.paymentCreditCardArea {
+    height: 350px;
+    background: #dddddd;
+}
+
+.buttonPaymentPage {
+    margin: 25px; 0px;
+}
+
+.modal-dialog {
+    top: 320px;
+}
+
+.content-modal {
+    padding: 0px 60px;
+}
+
+.qandaCon .row {
+    margin: 20px 0px;
+}
+
+.timePeriod {
+    margin: 20px 0px 10px 20px;
+}
