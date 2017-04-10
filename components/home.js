@@ -4,7 +4,7 @@ Vue.component('my-footer', {
         <footer class="text-center">
             <p>本站網路投保服務，由『凱萊保險代理人股份有限公司』提供 </p><br/>
             <p>本站產險商品，由『泰安產物保險公司』</p>
-            <p>Copyright© 2017 Care Line Co., Ltd. All Right Reserved. <a href="#">使用條款</a> | <a href="#">隱私政策</a></p>
+            <p>Copyright© 2017 Care Line Co., Ltd. All Right Reserved. <a href="./pdf/industryContentPrinciple.pdf" target="_blank">使用條款</a> | <a href="./pdf/industryContentPrinciple.pdf" target="_blank">隱私政策</a></p>
         </footer>
     `,
 })
