@@ -1,3 +1,38 @@
+// my-modal
+Vue.component('my-modal', {
+    template: `
+        <div class="container">
+            <!-- Modal -->
+            <div class="modal fade" id="myModal" role="dialog">
+                <div class="modal-dialog">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header text-center">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">CareLine</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="content-modal">
+                                <p>您已選擇了124cc~249cc機車保險方案，若要更改cc數，將會改變方案價格，請回首頁重新選擇方案，謝謝。</p>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">回首頁</button>
+                            <button type="button" class="btn btn-default" data-dismiss="modal">關閉並回表單</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    `,
+    data : function () {
+        return {
+
+        }
+    },
+})
 
 Vue.component('thankspage', {
     template: `
@@ -754,7 +789,7 @@ Vue.component('insured-form', {
                     <div class="col-md-6">
                         <div class="col-md-12">
                             <p><input type="checkbox" name="agreementCheckBox">
-                            我已閱讀 << <a href="#">網路要保聲明事項</a> >> ， << <a href="#">個人資料聲明事項</a> >>文件，並同意。</p>
+                            我已閱讀 << <a href="./pdf/industryContentPrinciple.pdf" target="_blank">網路要保聲明事項</a> >> ， << <a href="./pdf/industryContentPrinciple.pdf" target="_blank">個人資料聲明事項</a> >>文件，並同意。</p>
                         </div>
                     </div>
                 </div>
