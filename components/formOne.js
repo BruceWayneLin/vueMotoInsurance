@@ -669,50 +669,66 @@ Vue.component('insured-form', {
             <div class="container customerForm animated"  v-bind:class="{ slideOutLeft: isSlide, slideInLeft: !isSlide }">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <strong>被保人資料</strong>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-12">
-                            <input type="checkbox" name="sameAsApplicant">
+                            <input v-bind="applicantDataFromParent" @change="insuredSameAsApplicant" v-model="ischecked" type="checkbox" name="sameAsApplicant">
                             <span class="checkboxSpan">被保人資料同上</span>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-12">
-                    <div class="col-md-6">
+                
+                <div class="col-md-12" v-show="!ischecked">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-5"><input class="form-control" name="lastName" type="text" placeholder="姓"></div>
-                        <div class="col-md-7"><input class="form-control" name="firstName" type="text" placeholder="名"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12">
+                           <select required class="form-control">
+                                <option>被保人關係</option>
+                                <option>父子</option>
+                                <option>姐弟</option>
+                                <option>其他</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="col-md-5"><input class="form-control" v-model="insuredLastName" name="lastName" type="text" placeholder="姓"></div>
+                        <div class="col-md-7"><input class="form-control" v-model="insuredFirstName"  name="firstName" type="text" placeholder="名"></div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="id" placeholder="身分證字號"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input class="form-control" v-model="insuredPid" type="text" name="id" placeholder="身分證字號"></div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="gender">
-                            <span>男</span>
+                        {{ gender }}
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-3 birthSpan"><span>要保人生日:</span></div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthYear">
+                            <select class="form-control" v-model="insuredBirthYear" id="birthYear">
                                 <option>年</option>
                                 <option>1990</option>
                                 <option>1992</option>
@@ -720,7 +736,7 @@ Vue.component('insured-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthMonth">
+                            <select class="form-control" v-model="insuredBirthMonth" id="birthMonth">
                                 <option value="volvo">月</option>
                                 <option value="saab">1月</option>
                                 <option value="opel">2月</option>
@@ -728,7 +744,7 @@ Vue.component('insured-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthDay">
+                            <select class="form-control" v-model="insuredBirthDay" id="birthDay">
                                 <option value="volvo">日</option>
                                 <option value="saab">20</option>
                                 <option value="opel">21</option>
@@ -739,19 +755,19 @@ Vue.component('insured-form', {
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="mobile" placeholder="手機號碼"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input class="form-control" v-model="insuredMobile" type="text" name="mobile" placeholder="手機號碼"></div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-2 addr">
-                            <select class="form-control" id="city">
+                            <select class="form-control" v-model="insuredCityId" id="city">
                                 <option value="volvo">都市</option>
                                 <option value="saab">北市</option>
                                 <option value="opel">新北市</option>
@@ -759,7 +775,7 @@ Vue.component('insured-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <select class="form-control" id="city">
+                            <select class="form-control" v-model="insuredDistrictId" id="district">
                                 <option value="volvo">區</option>
                                 <option value="saab">中正區</option>
                                 <option value="opel">信義區</option>
@@ -767,57 +783,126 @@ Vue.component('insured-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <input class="form-control" type="text" name="zipcode" placeholder="區號">
+                            <input class="form-control" type="text" v-model="insuredZipcode" name="zipcode" placeholder="區號">
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="addr" class="form-control" placeholder="地址">
+                            <input type="text" name="addr" v-model="insuredAddr" class="form-control" placeholder="地址">
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="email" placeholder="E-mail"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input class="form-control" v-model="insuredEmail" type="text" name="email" placeholder="E-mail"></div>
                     </div>
                 </div>
                 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-12">
-                            <p><input type="checkbox" name="agreementCheckBox">
+                            <p><input type="checkbox" v-model="agreementRead" name="agreementCheckBox">
                             我已閱讀 << <a href="./pdf/industryContentPrinciple.pdf" target="_blank">網路要保聲明事項</a> >> ， << <a href="./pdf/industryContentPrinciple.pdf" target="_blank">個人資料聲明事項</a> >>文件，並同意。</p>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <button class="btn btn-primary NextButton " @click="completeStepOne">下一步</button>
                     </div>
                 </div>
-                
             </div>
         </div>
     `,
     data: function() {
         return{
+            ischecked: false,
+            agreementRead: false,
+            insuredLastName: '',
+            insuredFirstName: '',
+            insuredPid: '',
+            gender: '',
+            insuredBirthYear: '',
+            insuredBirthMonth: '',
+            insuredBirthDay: '',
+            insuredMobile: '',
+            insuredCityId: '',
+            insuredDistrictId: '',
+            insuredZipcode: '',
+            insuredAddr: '',
+            insuredEmail: '',
+            insuredDataSameAsApplicant: {}
         }
     },
     methods: {
+        insuredSameAsApplicant: function(event){
+          if(this.ischecked){
+              this.insuredLastName = this.insuredDataSameAsApplicant.applicantLastName;
+              this.insuredFirstName = this.insuredDataSameAsApplicant.applicantFistName;
+              this.insuredPid = this.insuredDataSameAsApplicant.applicantPid;
+              this.gender = this.insuredDataSameAsApplicant.applicantGender;
+              this.insuredBirthYear = this.insuredDataSameAsApplicant.applicantBirthYear;
+              this.insuredBirthMonth = this.insuredDataSameAsApplicant.applicantBirthMonth;
+              this.insuredBirthDay = this.insuredDataSameAsApplicant.applicantBirthDay;
+              this.insuredMobile = this.insuredDataSameAsApplicant.applicantMobile;
+              this.insuredCityId = this.insuredDataSameAsApplicant.applicantCityId;
+              this.insuredDistrictId = this.insuredDataSameAsApplicant.applicantDistrictId;
+              this.insuredZipcode = this.insuredDataSameAsApplicant.applicantZipcode;
+              this.insuredAddr = this.insuredDataSameAsApplicant.applicantAddr;
+              this.insuredEmail = this.insuredDataSameAsApplicant.applicantEmail;
+          }else{
+              this.insuredLastName = '';
+              this.insuredFirstName = '';
+              this.insuredPid = '';
+              this.gender = '';
+              this.insuredBirthYear = '';
+              this.insuredBirthMonth = '';
+              this.insuredBirthDay = '';
+              this.insuredMobile = '';
+              this.insuredCityId = '';
+              this.insuredDistrictId = '';
+              this.insuredZipcode = '';
+              this.insuredAddr = '';
+              this.insuredEmail = '';
+          }
+        },
         completeStepOne: function(){
             this.$parent.isCompleted = true;
             this.$parent.processbarNu = 50;
+            this.$parent.motoSpeedPosition['left'] = 400;
+            this.$parent.insuredData['insuredLastName'] = this.insuredLastName;
+            this.$parent.insuredData['insuredFirstName'] = this.insuredFirstName;
+            this.$parent.insuredData['insuredPid'] = this.insuredPid;
+            this.$parent.insuredData['gender'] = this.gender;
+            this.$parent.insuredData['insuredBirthYear'] = this.insuredBirthYear;
+            this.$parent.insuredData['insuredBirthMonth'] = this.insuredBirthMonth;
+            this.$parent.insuredData['insuredBirthDay'] = this.insuredBirthDay;
+            this.$parent.insuredData['insuredMobile'] = this.insuredMobile;
+            this.$parent.insuredData['insuredCityId'] = this.insuredCityId;
+            this.$parent.insuredData['insuredDistrictId'] = this.insuredDistrictId;
+            this.$parent.insuredData['insuredZipcode'] = this.insuredZipcode;
+            this.$parent.insuredData['insuredAddr'] = this.insuredAddr;
+            this.$parent.insuredData['insuredEmail'] = this.insuredEmail;
+
+            var sendDataBackFirstTime = {};
+            sendDataBackFirstTime['applicantData'] = this.$parent.applicantData;
+            sendDataBackFirstTime['insuredData'] = this.$parent.insuredData;
+            console.log(JSON.stringify(sendDataBackFirstTime));
+
         }
     },
     computed: {
         isSlide: function () {
             return this.$parent.isCompleted
+        },
+        applicantDataFromParent: function () {
+            this.insuredDataSameAsApplicant = this.$parent.applicantData;
         }
     }
 
@@ -832,8 +917,8 @@ Vue.component('applicant-form', {
                         <strong>要保人資料</strong>
                     </div>
                     <div class="col-md-7">
-                        <div class="col-md-5"><input v-model="lastName" maxlength="2"  v-bind:class="{errorShow:lastNameInValid}" v-bind="toComputedData" @change="toCheckVal" class="form-control" name="lastName" type="text" placeholder="姓(中文)" required></div>
-                        <div class="col-md-7"><input v-model="firstName" maxlength="4" v-bind:class="{errorShow:firstNameInValid}" class="form-control" @change="toCheckVal"  name="firstName" type="text" placeholder="名(中文)"required></div>
+                        <div class="col-md-5"><input v-model="applicantLastName" maxlength="2"  v-bind:class="{errorShow:lastNameInValid}" v-bind="toComputedData" @change="toCheckLastNameVal" class="form-control" name="lastName" type="text" placeholder="姓(中文)" required></div>
+                        <div class="col-md-7"><input v-model="applicantFirstName" maxlength="4" v-bind:class="{errorShow:firstNameInValid}" class="form-control" @change="toCheckFirstNameVal"  name="firstName" type="text" placeholder="名(中文)"required></div>
                     </div>
                 </div>
                 
@@ -855,7 +940,7 @@ Vue.component('applicant-form', {
                     <div class="col-md-5">
                     </div>
                     <div class="col-md-7">
-                        <div class="col-md-12"><input v-model="pid" v-bind:class="{errorShow:pidInValid}"  @change="checkPid" maxlength="10" class="form-control" type="text" name="id" placeholder="身分證字號" required></div>
+                        <div class="col-md-12"><input v-model="applicantPid" v-bind:class="{errorShow:pidInValid}"  @change="checkPid" maxlength="10" class="form-control" type="text" name="id" placeholder="身分證字號" required></div>
                     </div>
                 </div>
                 
@@ -889,7 +974,7 @@ Vue.component('applicant-form', {
                     <div class="col-md-7">
                         <div class="col-md-3 birthSpan"><span>要保人生日:</span></div>
                         <div class="col-md-3">
-                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="insuredBirthYear" id="birthYear" required>
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="applicantBirthYear" id="birthYear" required>
                                 <option>年</option>
                                 <option>1990</option>
                                 <option>1992</option>
@@ -897,7 +982,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="insuredBirthMonth" id="birthMonth" required>
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="applicantBirthMonth" id="birthMonth" required>
                                 <option value="volvo">月</option>
                                 <option value="saab">1月</option>
                                 <option value="opel">2月</option>
@@ -905,7 +990,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}" class="form-control" v-model="insuredBirthDay" id="birthDay" required>
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}" class="form-control" v-model="applicantBirthDay" id="birthDay" required>
                                 <option value="volvo">日</option>
                                 <option value="saab">20</option>
                                 <option value="opel">21</option>
@@ -933,7 +1018,7 @@ Vue.component('applicant-form', {
                     <div class="col-md-5">
                     </div>
                     <div class="col-md-7">
-                        <div class="col-md-12"><input @change="checkMobile" class="form-control" maxlength="10" v-model="insuredMobile" type="text" name="mobile" placeholder="手機號碼" required></div>
+                        <div class="col-md-12"><input @change="checkMobile" class="form-control" maxlength="10" v-model="applicantMobile" type="text" name="mobile" placeholder="手機號碼" required></div>
                     </div>
                 </div>
                 
@@ -956,7 +1041,7 @@ Vue.component('applicant-form', {
                     </div>
                     <div class="col-md-7">
                         <div class="col-md-2 addr">
-                            <select @change="checkAddr" v-model="insuredLivingCityId" class="form-control" id="city" required>
+                            <select @change="checkAddr" v-model="applicantLivingCityId" class="form-control" id="city" required>
                                 <option value="volvo">都市</option>
                                 <option value="saab">北市</option>
                                 <option value="opel">新北市</option>
@@ -964,7 +1049,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <select @change="checkAddr"  v-model="insuredLivingDistrictId" class="form-control" id="city" required>
+                            <select @change="checkAddr"  v-model="applicantLivingDistrictId" class="form-control" id="city" required>
                                 <option value="volvo">區</option>
                                 <option value="saab">中正區</option>
                                 <option value="opel">信義區</option>
@@ -972,10 +1057,10 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <input @change="checkAddr" class="form-control" v-model="insuredLivingZipCode" type="text" name="zipcode" placeholder="區號" required>
+                            <input @change="checkAddr" class="form-control" v-model="applicantLivingZipCode" type="text" name="zipcode" placeholder="區號" required>
                         </div>
                         <div class="col-md-6">
-                            <input @change="checkAddr" type="text" name="addr" v-model="insuredAddr" class="form-control" placeholder="地址" required>
+                            <input @change="checkAddr" type="text" name="addr" v-model="applicantAddr" class="form-control" placeholder="地址" required>
                         </div>
                     </div>
                 </div>
@@ -998,7 +1083,7 @@ Vue.component('applicant-form', {
                     <div class="col-md-5">
                     </div>
                     <div class="col-md-7">
-                        <div class="col-md-12"><input @change="checkEmail" class="form-control" v-model="insuredEmail" type="text" name="email" placeholder="E-mail" required></div>
+                        <div class="col-md-12"><input @change="checkEmail" class="form-control" v-model="applicantEmail" type="text" name="email" placeholder="E-mail" required></div>
                     </div>
                 </div>
                 
@@ -1034,113 +1119,128 @@ Vue.component('applicant-form', {
             BDayErrorMsg: '',
             mobileErrorMsg: '',
             addrErrorMsg: '',
-            lastName: '',
-            firstName: '',
-            pid: '',
+            applicantLastName: '',
+            applicantFirstName: '',
+            applicantPid: '',
             gender: '',
-            insuredBirthYear: '',
-            insuredBirthMonth: '',
-            insuredBirthDay: '',
-            insuredMobile: '',
-            insuredLivingCityId: '',
-            insuredLivingDistrictId: '',
-            insuredLivingZipCode: '',
-            insuredAddr: '',
-            insuredEmail: '',
-            insuredData: {}
+            applicantBirthYear: '',
+            applicantBirthMonth: '',
+            applicantBirthDay: '',
+            applicantMobile: '',
+            applicantLivingCityId: '',
+            applicantLivingDistrictId: '',
+            applicantLivingZipCode: '',
+            applicantAddr: '',
+            applicantEmail: ''
         }
     },
     methods: {
-        toCheckVal: function(event) {
+        toCheckLastNameVal: function(event) {
             // name validation
-            if(this.lastName || this.firstName){
-                if(this.lastName.match(/[^\u3447-\uFA29]/ig)){
-                    this.lastName = '';
+            if(this.applicantLastName){
+                if(this.applicantLastName.match(/[^\u3447-\uFA29]/ig)){
+                    this.applicantLastName = '';
                     this.lastNameInValid = true;
                     this.lastNameErrorMsg = '請輸入正確的中文姓';
 
-                }else if(this.firstName.match(/[^\u3447-\uFA29]/ig)){
-                    this.firstName = '';
+                }else{
+                    this.lastNameInValid = false;
+                    this.firstNameInValid = false;
+                    this.lastNameErrorMsg = '';
+                    this.$parent.motoSpeedPosition['left'] = 280;
+                }
+            }
+        },
+        toCheckFirstNameVal: function() {
+            if(this.applicantFirstName){
+                if(this.applicantFirstName.match(/[^\u3447-\uFA29]/ig)){
+                    this.applicantFirstName = '';
                     this.firstNameInValid = true;
                     this.lastNameErrorMsg = '請輸入正確的中文名';
                 }else{
                     this.lastNameInValid = false;
                     this.firstNameInValid = false;
                     this.lastNameErrorMsg = '';
+                    this.$parent.motoSpeedPosition['left'] = 280;
                 }
             }
         },
         checkAddr: function () {
-            if(this.insuredLivingCityId && !this.insuredLivingDistrictId || !this.insuredLivingZipCode || !this.insuredAddr) {
+            if(this.applicantLivingCityId && !this.applicantLivingDistrictId || !this.applicantLivingZipCode || !this.applicantAddr) {
                 this.addrInValid = true;
                 this.addrErrorMsg = '別忘記填寫所有地址欄位'
-            }if(this.insuredLivingDistrictId && !this.insuredLivingCityId || !this.insuredLivingZipCode || !this.insuredAddr) {
+            }if(this.applicantLivingDistrictId && !this.applicantLivingCityId || !this.applicantLivingZipCode || !this.applicantAddr) {
                 this.addrInValid = true;
                 this.addrErrorMsg = '別忘記填寫所有地址欄位'
-            }if(this.insuredLivingZipCode && !this.insuredLivingDistrictId || !this.insuredLivingCityId || !this.insuredAddr) {
+            }if(this.applicantLivingZipCode && !this.applicantLivingDistrictId || !this.applicantLivingCityId || !this.applicantAddr) {
                 this.addrInValid = true;
                 this.addrErrorMsg = '別忘記填寫所有地址欄位'
-            }if(this.insuredAddr && !this.insuredLivingDistrictId || !this.insuredLivingCityId || !this.insuredLivingZipCode) {
+            }if(this.applicantAddr && !this.applicantLivingDistrictId || !this.applicantLivingCityId || !this.applicantLivingZipCode) {
                 this.addrInValid = true;
                 this.addrErrorMsg = '別忘記填寫所有地址欄位'
             }else {
                 this.addrInValid = false;
+                this.$parent.motoSpeedPosition['left'] = 320;
             }
         },
         checkBirth: function () {
 
             //birthDay validation
-            if(this.insuredBirthYear && !this.insuredBirthMonth || !this.insuredBirthDay){
+            if(this.applicantBirthYear && !this.applicantBirthMonth || !this.applicantBirthDay){
                 this.BDayInValid = true;
                 this.BDayErrorMsg = '生日全部欄位是必填喔';
-            }else if (this.insuredBirthMonth && !this.insuredBirthYear || !this.insuredBirthDay) {
+            }else if (this.applicantBirthMonth && !this.applicantBirthYear || !this.applicantBirthDay) {
                 this.BDayInValid = true;
                 this.BDayErrorMsg = '生日全部欄位是必填喔'
-            }else if (this.insuredBirthDay && !this.insuredBirthYear || !this.insuredBirthMonth) {
+            }else if (this.applicantBirthDay && !this.applicantBirthYear || !this.applicantBirthMonth) {
                 this.BDayInValid = true;
                 this.BDayErrorMsg = '生日全部欄位必填喔'
             }else{
                 this.BDayInValid = false;
+                this.$parent.motoSpeedPosition['left'] = 300;
             }
         },
         checkPid: function () {
-            if(this.pid){
+            if(this.applicantPid){
                 // pid validation
                 var regExpID=/^[a-z](1|2)\d{8}$/i;
-                if(this.pid.search(regExpID) == -1){
+                if(this.applicantPid.search(regExpID) == -1){
                     this.pidInValid = true;
                     this.pidErrorMsg = '請輸入正確的身份證資料格式';
                 }else {
                     // 取出第一個字元和最後一個數字。
-                    let firstChar = this.pid.charAt(1).toUpperCase();
+                    let firstChar = this.applicantPid.charAt(1).toUpperCase();
                     if(firstChar == 1){
                         this.gender = '男';
                     }else if (firstChar == 2) {
                         this.gender = '女';
                     }
                     this.pidInValid = false;
+                    this.$parent.motoSpeedPosition['left'] = 290;
                 }
             }
         },
         checkMobile: function () {
-            if(this.insuredMobile){
-                let re = /^[09]{2}[0-9]{8}$/;
-                if (!re.test(this.mobile)){
+            if(this.applicantMobile){
+                var re = /^[09]{2}[0-9]{8}$/;
+                if (!re.test(this.applicantMobile)){
                     this.mobileInValid = true;
                     this.mobileErrorMsg = '你的手機格式不對'
                 }else {
                     this.mobileInValid = false;
+                    this.$parent.motoSpeedPosition['left'] = 310;
                 }
             }
         },
         checkEmail: function () {
-            if(this.insuredEmail){
+            if(this.applicantEmail){
                 let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-                if(!reg.test(this.insuredEmail)){
+                if(!reg.test(this.applicantEmail)){
                     this.emailInValid = true;
                     this.emailErrorMsg = 'E-mail格式不對'
                 }else{
                     this.emailInValid = false;
+                    this.$parent.motoSpeedPosition['left'] = 330;
                 }
             }
         }
@@ -1151,24 +1251,25 @@ Vue.component('applicant-form', {
             return this.$parent.isCompleted;
         },
         toComputedData: function() {
-            var insuredPersonalData =  this.insuredData;
-            insuredPersonalData['lastName'] = this.lastName;
-            insuredPersonalData['fistName'] = this.firstName;
-            insuredPersonalData['pid'] = this.pid;
-            insuredPersonalData['gender'] = this.gender;
-            insuredPersonalData['birthday'] = this.insuredBirthYear + '-' + this.insuredBirthMonth + '-' + this.insuredBirthDay;
-            insuredPersonalData['mobile'] = this.insuredMobile;
-            insuredPersonalData['city_id'] = this.insuredLivingCityId;
-            insuredPersonalData['area_id'] = this.insuredLivingDistrictId;
-            insuredPersonalData['zipcode'] = this.insuredLivingZipCode;
-            insuredPersonalData['addr'] = this.insuredAddr;
-            console.log(insuredPersonalData);
-            return insuredPersonalData;
-        },
+            var applicantPersonalData = {};
 
+            applicantPersonalData['applicantLastName'] = this.applicantLastName;
+            applicantPersonalData['applicantFistName'] = this.applicantFirstName;
+            applicantPersonalData['applicantPid'] = this.applicantPid;
+            applicantPersonalData['applicantGender'] = this.gender;
+            applicantPersonalData['applicantBirthday'] = this.applicantBirthYear + '-' + this.applicantBirthMonth + '-' + this.applicantBirthDay;
+            applicantPersonalData['applicantBirthYear'] = this.applicantBirthYear;
+            applicantPersonalData['applicantBirthMonth'] = this.applicantBirthMonth;
+            applicantPersonalData['applicantBirthDay'] = this.applicantBirthDay;
+            applicantPersonalData['applicantMobile'] = this.applicantMobile;
+            applicantPersonalData['applicantCityId'] = this.applicantLivingCityId;
+            applicantPersonalData['applicantDistrictId'] = this.applicantLivingDistrictId;
+            applicantPersonalData['applicantZipcode'] = this.applicantLivingZipCode;
+            applicantPersonalData['applicantAddr'] = this.applicantAddr;
+            applicantPersonalData['applicantEmail'] = this.applicantEmail;
+            this.$parent.applicantData = applicantPersonalData;
 
-
-
+        }
     }
 
 
@@ -1196,6 +1297,9 @@ Vue.component('my-process', {
                             </div>
                         </div>
                     </div>
+                    <div class="motoOwl"  v-bind:style="{position: 'relative', top: '-107px', left: speedPosition + 'px' }">
+                        <img src="images/owlMoto.png" alt="">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1206,11 +1310,15 @@ Vue.component('my-process', {
         }
     },
     computed: {
+        speedPosition: function() {
+          return this.$parent.motoSpeedPosition.left;
+        },
         processNum: function () {
             return this.$parent.processbarNu;
         },
         steps: function() {
             return this.$parent.steps;
         }
-    }
+    },
+
 })

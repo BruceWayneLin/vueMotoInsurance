@@ -177,6 +177,11 @@ var vm = new Vue({
         readyToGoPay: false,
         processbarNu: 25,
         userSelectedProduct: {},
+        applicantData: {},
+        insuredData: {},
+        motoSpeedPosition: {
+            left: 230
+        },
         message: 'Hello Vue.js!'
     },
     computed: {
