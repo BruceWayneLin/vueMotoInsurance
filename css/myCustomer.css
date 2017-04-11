@@ -70,7 +70,7 @@ footer {
 }
 
 .gender {
-    padding: 8px 15px;
+    padding: 10px 15px;
 }
 
 .birthSpan {
@@ -183,4 +183,24 @@ footer {
 
 .timePeriod {
     margin: 20px 0px 10px 20px;
+}
+
+.errorMessage {
+    padding-top: 10px;
+    color: #f32a2a;
+}
+
+.iconErrorMessage {
+    background: url('img/errormsg.png');
+    background-size: cover;
+    height: 50px;
+}
+
+.errorMsg {
+    position: relative;
+    top: 15px;
+}
+
+.errorShow {
+    border-color: #f32a2a;
 }

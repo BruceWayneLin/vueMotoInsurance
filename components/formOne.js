@@ -828,40 +828,68 @@ Vue.component('applicant-form', {
             <div class="container customerForm animated " v-bind:class="{ slideOutLeft: isSlide, slideInLeft: !isSlide }">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                         <strong>要保人資料</strong>
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-5"><input class="form-control" name="lastName" type="text" placeholder="姓"></div>
-                        <div class="col-md-7"><input class="form-control" name="firstName" type="text" placeholder="名"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-5"><input v-model="lastName" maxlength="2"  v-bind:class="{errorShow:lastNameInValid}" v-bind="toComputedData" @change="toCheckVal" class="form-control" name="lastName" type="text" placeholder="姓(中文)" required></div>
+                        <div class="col-md-7"><input v-model="firstName" maxlength="4" v-bind:class="{errorShow:firstNameInValid}" class="form-control" @change="toCheckVal"  name="firstName" type="text" placeholder="名(中文)"required></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 errorMessage" v-show="lastNameInValid || firstNameInValid" >
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ lastNameErrorMsg }}！</div>
+                      </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="id" placeholder="身分證字號"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input v-model="pid" v-bind:class="{errorShow:pidInValid}"  @change="checkPid" maxlength="10" class="form-control" type="text" name="id" placeholder="身分證字號" required></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 errorMessage" v-show="pidInValid" >
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ pidErrorMsg }}！</div>
+                      </div>
                     </div>
                 </div>
 
-                <div class="col-md-12">
-                    <div class="col-md-6">
+                <div class="col-md-12" v-show="!pidInValid">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="gender">
-                            <span>男</span>
+                            <span>{{ gender }}</span>
                         </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-3 birthSpan"><span>要保人生日:</span></div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthYear">
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="insuredBirthYear" id="birthYear" required>
                                 <option>年</option>
                                 <option>1990</option>
                                 <option>1992</option>
@@ -869,7 +897,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthMonth">
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}"  class="form-control" v-model="insuredBirthMonth" id="birthMonth" required>
                                 <option value="volvo">月</option>
                                 <option value="saab">1月</option>
                                 <option value="opel">2月</option>
@@ -877,7 +905,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-3">
-                            <select class="form-control" id="birthDay">
+                            <select @change="checkBirth" v-bind:class="{errorShow:BDayInValid}" class="form-control" v-model="insuredBirthDay" id="birthDay" required>
                                 <option value="volvo">日</option>
                                 <option value="saab">20</option>
                                 <option value="opel">21</option>
@@ -886,21 +914,49 @@ Vue.component('applicant-form', {
                         </div>
                     </div>
                 </div>
-
-                <div class="col-md-12">
-                    <div class="col-md-6">
+                
+                <div class="col-md-12 errorMessage" v-show="BDayInValid" >
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="mobile" placeholder="手機號碼"></div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ BDayErrorMsg }}！</div>
+                      </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12">
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input @change="checkMobile" class="form-control" maxlength="10" v-model="insuredMobile" type="text" name="mobile" placeholder="手機號碼" required></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 errorMessage" v-show="mobileInValid" >
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ mobileErrorMsg }}！</div>
+                      </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-7">
                         <div class="col-md-2 addr">
-                            <select class="form-control" id="city">
+                            <select @change="checkAddr" v-model="insuredLivingCityId" class="form-control" id="city" required>
                                 <option value="volvo">都市</option>
                                 <option value="saab">北市</option>
                                 <option value="opel">新北市</option>
@@ -908,7 +964,7 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <select class="form-control" id="city">
+                            <select @change="checkAddr"  v-model="insuredLivingDistrictId" class="form-control" id="city" required>
                                 <option value="volvo">區</option>
                                 <option value="saab">中正區</option>
                                 <option value="opel">信義區</option>
@@ -916,19 +972,47 @@ Vue.component('applicant-form', {
                             </select>
                         </div>
                         <div class="col-md-2 addr">
-                            <input class="form-control" type="text" name="zipcode" placeholder="區號">
+                            <input @change="checkAddr" class="form-control" v-model="insuredLivingZipCode" type="text" name="zipcode" placeholder="區號" required>
                         </div>
                         <div class="col-md-6">
-                            <input type="text" name="addr" class="form-control" placeholder="地址">
+                            <input @change="checkAddr" type="text" name="addr" v-model="insuredAddr" class="form-control" placeholder="地址" required>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 errorMessage" v-show="addrInValid" >
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ addrErrorMsg }}！</div>
+                      </div>
                     </div>
                 </div>
 
                 <div class="col-md-12">
-                    <div class="col-md-6">
+                    <div class="col-md-5">
                     </div>
-                    <div class="col-md-6">
-                        <div class="col-md-12"><input class="form-control" type="text" name="email" placeholder="E-mail"></div>
+                    <div class="col-md-7">
+                        <div class="col-md-12"><input @change="checkEmail" class="form-control" v-model="insuredEmail" type="text" name="email" placeholder="E-mail" required></div>
+                    </div>
+                </div>
+                
+                <div class="col-md-12 errorMessage" v-show="emailInValid" >
+                    <div class="col-md-5">
+                    </div>
+                    <div class="col-md-7 ">
+                      <div class="col-md-2">
+                        <div class="iconErrorMessage">
+                        </div>
+                      </div>
+                      <div class="col-md-10">
+                         <div class="errorMsg">{{ emailErrorMsg }}！</div>
+                      </div>
                     </div>
                 </div>
             </div>
@@ -937,15 +1021,154 @@ Vue.component('applicant-form', {
     `,
     data: function() {
         return {
+            lastNameInValid: false,
+            firstNameInValid: false,
+            pidInValid: false,
+            BDayInValid: false,
+            mobileInValid: false,
+            addrInValid: false,
+            emailInValid: false,
+            lastNameErrorMsg: '',
+            emailErrorMsg: '',
+            pidErrorMsg: '',
+            BDayErrorMsg: '',
+            mobileErrorMsg: '',
+            addrErrorMsg: '',
+            lastName: '',
+            firstName: '',
+            pid: '',
+            gender: '',
+            insuredBirthYear: '',
+            insuredBirthMonth: '',
+            insuredBirthDay: '',
+            insuredMobile: '',
+            insuredLivingCityId: '',
+            insuredLivingDistrictId: '',
+            insuredLivingZipCode: '',
+            insuredAddr: '',
+            insuredEmail: '',
+            insuredData: {}
         }
     },
     methods: {
+        toCheckVal: function(event) {
+            // name validation
+            if(this.lastName || this.firstName){
+                if(this.lastName.match(/[^\u3447-\uFA29]/ig)){
+                    this.lastName = '';
+                    this.lastNameInValid = true;
+                    this.lastNameErrorMsg = '請輸入正確的中文姓';
+
+                }else if(this.firstName.match(/[^\u3447-\uFA29]/ig)){
+                    this.firstName = '';
+                    this.firstNameInValid = true;
+                    this.lastNameErrorMsg = '請輸入正確的中文名';
+                }else{
+                    this.lastNameInValid = false;
+                    this.firstNameInValid = false;
+                    this.lastNameErrorMsg = '';
+                }
+            }
+        },
+        checkAddr: function () {
+            if(this.insuredLivingCityId && !this.insuredLivingDistrictId || !this.insuredLivingZipCode || !this.insuredAddr) {
+                this.addrInValid = true;
+                this.addrErrorMsg = '別忘記填寫所有地址欄位'
+            }if(this.insuredLivingDistrictId && !this.insuredLivingCityId || !this.insuredLivingZipCode || !this.insuredAddr) {
+                this.addrInValid = true;
+                this.addrErrorMsg = '別忘記填寫所有地址欄位'
+            }if(this.insuredLivingZipCode && !this.insuredLivingDistrictId || !this.insuredLivingCityId || !this.insuredAddr) {
+                this.addrInValid = true;
+                this.addrErrorMsg = '別忘記填寫所有地址欄位'
+            }if(this.insuredAddr && !this.insuredLivingDistrictId || !this.insuredLivingCityId || !this.insuredLivingZipCode) {
+                this.addrInValid = true;
+                this.addrErrorMsg = '別忘記填寫所有地址欄位'
+            }else {
+                this.addrInValid = false;
+            }
+        },
+        checkBirth: function () {
+
+            //birthDay validation
+            if(this.insuredBirthYear && !this.insuredBirthMonth || !this.insuredBirthDay){
+                this.BDayInValid = true;
+                this.BDayErrorMsg = '生日全部欄位是必填喔';
+            }else if (this.insuredBirthMonth && !this.insuredBirthYear || !this.insuredBirthDay) {
+                this.BDayInValid = true;
+                this.BDayErrorMsg = '生日全部欄位是必填喔'
+            }else if (this.insuredBirthDay && !this.insuredBirthYear || !this.insuredBirthMonth) {
+                this.BDayInValid = true;
+                this.BDayErrorMsg = '生日全部欄位必填喔'
+            }else{
+                this.BDayInValid = false;
+            }
+        },
+        checkPid: function () {
+            if(this.pid){
+                // pid validation
+                var regExpID=/^[a-z](1|2)\d{8}$/i;
+                if(this.pid.search(regExpID) == -1){
+                    this.pidInValid = true;
+                    this.pidErrorMsg = '請輸入正確的身份證資料格式';
+                }else {
+                    // 取出第一個字元和最後一個數字。
+                    let firstChar = this.pid.charAt(1).toUpperCase();
+                    if(firstChar == 1){
+                        this.gender = '男';
+                    }else if (firstChar == 2) {
+                        this.gender = '女';
+                    }
+                    this.pidInValid = false;
+                }
+            }
+        },
+        checkMobile: function () {
+            if(this.insuredMobile){
+                let re = /^[09]{2}[0-9]{8}$/;
+                if (!re.test(this.mobile)){
+                    this.mobileInValid = true;
+                    this.mobileErrorMsg = '你的手機格式不對'
+                }else {
+                    this.mobileInValid = false;
+                }
+            }
+        },
+        checkEmail: function () {
+            if(this.insuredEmail){
+                let reg = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+                if(!reg.test(this.insuredEmail)){
+                    this.emailInValid = true;
+                    this.emailErrorMsg = 'E-mail格式不對'
+                }else{
+                    this.emailInValid = false;
+                }
+            }
+        }
 
     },
     computed: {
         isSlide: function() {
             return this.$parent.isCompleted;
-        }
+        },
+        toComputedData: function() {
+            var insuredPersonalData =  this.insuredData;
+            insuredPersonalData['lastName'] = this.lastName;
+            insuredPersonalData['fistName'] = this.firstName;
+            insuredPersonalData['pid'] = this.pid;
+            insuredPersonalData['gender'] = this.gender;
+            insuredPersonalData['birthday'] = this.insuredBirthYear + '-' + this.insuredBirthMonth + '-' + this.insuredBirthDay;
+            insuredPersonalData['mobile'] = this.insuredMobile;
+            insuredPersonalData['city_id'] = this.insuredLivingCityId;
+            insuredPersonalData['area_id'] = this.insuredLivingDistrictId;
+            insuredPersonalData['zipcode'] = this.insuredLivingZipCode;
+            insuredPersonalData['addr'] = this.insuredAddr;
+            console.log(insuredPersonalData);
+            return insuredPersonalData;
+        },
+
+
+
+
     }
 
 
@@ -991,4 +1214,3 @@ Vue.component('my-process', {
         }
     }
 })
-
